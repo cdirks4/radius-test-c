@@ -1,0 +1,29 @@
+{
+  "privateKey": "0x0f3437942daca6c7e06cb6f8eb05ad50f8ab06764e7074ed56d27ce9ef93eebc",
+  "contractAddress": "0x19138e2CC9E1cc9Df0D72Da08cD8671Ebe584Da1",
+  "network": {
+    "name": "radius",
+    "chainId": 1223953,
+    "rpcUrl": "https://rpc.testnet.tryradi.us/6ba92c970d9cec7e019d47c8e0ae5e65b2343e7388d560a7"
+  },
+  "tokens": [
+    {
+      "address": "0xD648582aFB6B01753Ad094c22706af10e4dA52C1",
+      "symbol": "UNI-V2"
+    },
+    {
+      "address": "0x85088ac15BcAa1056d8c90DB86c2E16C3679bF53",
+      "symbol": "UNI-V2"
+    },
+    {
+      "address": "0x19138e2CC9E1cc9Df0D72Da08cD8671Ebe584Da1",
+      "symbol": "WFE"
+    }
+  ],
+  "tokenA": "0x19138e2CC9E1cc9Df0D72Da08cD8671Ebe584Da1",
+  "tokenB": "0x30Da11aB638642E1BbE355350BD694BdaD9eF474",
+  "uniswap": {
+    "factory": "0xa7F6caC63291EFE63AC98361C21F6D22251bD016",
+    "pair": "0xadE47Df922C81D43523846470f50aaF051AE19a6"
+  }
+}

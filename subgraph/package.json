@@ -1,0 +1,10 @@
+{
+  "name": "radius-uniswap-subgraph",
+  "version": "0.1.0",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "create": "graph create --node http://localhost:8020 radius-uniswap",
+    "deploy": "graph deploy --node http://localhost:8020 --ipfs http://localhost:5001 radius-uniswap --version-label v0.0.1"
+  }
+}
