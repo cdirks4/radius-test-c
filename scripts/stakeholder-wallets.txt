@@ -1,0 +1,15 @@
+Farmer:
+Address: 0x68cf60A8E23BA9329b2a13B52adeb1Fd4910FDdD
+Private Key: 0xfbecf40d0709dc54d9c3a69a71837b3847c2bfb0ea3459e7431683088d947c7a
+Share: 15%
+
+Farmer:
+Address: 0x19314cA807De26E2055858914D4CF367e48bC151
+Private Key: 0xb7fa37c41097c48933ffafb9fe6f1b863870edfd9e26047dd3fe380aa828186f
+Share: 15%
+
+Processor:
+Address: 0x08889514cba5952725C96019BDABdbFA772b74eD
+Private Key: 0x9fbb88ae94bb778d9d88adaf45860376ba9d4e22a3c7dc8fedc1cd071ebb7859
+Share: 10%
+

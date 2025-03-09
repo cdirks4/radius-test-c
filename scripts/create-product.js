@@ -52,14 +52,31 @@ async function createProduct() {
 
     console.log("\n🏭 Creating new product...");
 
-    // Use minimal transaction parameters
-    const tx = await factory.createProduct({
-      gasLimit: 300000
-    });
+    // Create transaction with manual parameters matching deployment style
+    const data = factory.interface.encodeFunctionData("createProduct", []);
+    const tx = {
+      to: config.productFactory,
+      data: data,
+      gasLimit: ethers.toBigInt("3000000"),
+      gasPrice: ethers.parseUnits("1", "gwei"),
+      nonce: await provider.getTransactionCount(wallet.address),
+      chainId: config.network.chainId,
+      value: ethers.toBigInt("0"),
+      type: 0, // Legacy transaction type
+    };
 
-    console.log("Transaction sent:", tx.hash);
+    console.log("Signing transaction...");
+    const signedTx = await wallet.signTransaction(tx);
 
-    const receipt = await tx.wait();
+    console.log("Broadcasting transaction...");
+    const transaction = await provider.broadcastTransaction(signedTx);
+    console.log("Transaction sent:", transaction.hash);
+
+    const receipt = await provider.waitForTransaction(
+      transaction.hash,
+      1,
+      120000
+    );
 
     // Find the ProductCreated event
     const event = receipt.logs.find(
