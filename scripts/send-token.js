@@ -70,10 +70,17 @@ async function sendToken(tokenSymbol, toAddress, amount) {
     // After transaction is sent
     console.log("\n📝 Transaction Details:");
     console.log("Hash:", transaction.hash);
-    console.log("Base64 Hash:", Buffer.from(transaction.hash.slice(2), 'hex').toString('base64'));
-    
+    console.log(
+      "Base64 Hash:",
+      Buffer.from(transaction.hash.slice(2), "hex").toString("base64")
+    );
+
     // Wait for confirmation
-    const receipt = await provider.waitForTransaction(transaction.hash, 1, 120000);
+    const receipt = await provider.waitForTransaction(
+      transaction.hash,
+      1,
+      120000
+    );
     if (!receipt) {
       throw new Error("Transaction confirmation timeout");
     }

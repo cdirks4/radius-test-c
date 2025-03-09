@@ -1,6 +1,9 @@
 const { ethers } = require("ethers");
 const fs = require("fs");
-const path = require("path"); // Added path import at the top
+const path = require("path");
+
+// Move the path.join() call after the imports
+const configPath = path.join(__dirname, "config.json");
 
 const ERC20_ABI = [
   "function balanceOf(address owner) view returns (uint256)",
@@ -16,13 +19,26 @@ const ROUTER_ABI = [
 
 async function executeSwap() {
   try {
-    // Load configuration
-    const config = JSON.parse(
-      fs.readFileSync(path.join(__dirname, "config.json"))
-    );
+    // Load configuration using the predefined path
+    const config = JSON.parse(fs.readFileSync(configPath));
 
-    // Connect to network
-    const provider = new ethers.JsonRpcProvider(config.network.rpcUrl);
+    // Connect to network with overrides for Radius
+    const provider = new ethers.JsonRpcProvider(config.network.rpcUrl, {
+      chainId: config.network.chainId,
+      name: config.network.name,
+      ensAddress: null,
+      // Add these overrides to handle block formatting
+      formatter: {
+        ...ethers.Formatter.defaultFormatter,
+        blockTag: (value) => {
+          if (typeof value === "string" && value.startsWith("0x")) {
+            return BigInt(value).toString();
+          }
+          return value;
+        },
+      },
+    });
+
     const wallet = new ethers.Wallet(config.privateKey, provider);
     console.log("\n👤 Wallet Address:", wallet.address);
 
@@ -47,7 +63,7 @@ async function executeSwap() {
     console.log(`${symbolA}: ${ethers.formatUnits(balanceA, decimalsA)}`);
     console.log(`${symbolB}: ${ethers.formatUnits(balanceB, decimalsB)}`);
 
-    // Setup router
+    // Setup router with explicit gas settings
     const router = new ethers.Contract(
       config.uniswap.router,
       ROUTER_ABI,
@@ -55,11 +71,14 @@ async function executeSwap() {
     );
     const amountIn = ethers.parseEther("100"); // Swap 100 tokens
 
-    // Approve router
+    // Approve router with gas settings
     console.log("\n🔓 Approving router to spend tokens...");
-    const approveTx = await tokenA.approve(router.target, amountIn);
+    const approveTx = await tokenA.approve(router.target, amountIn, {
+      gasLimit: 300000,
+      gasPrice: await provider.getFeeData().then((data) => data.gasPrice),
+    });
     await approveTx.wait();
-    console.log("✅ Approval successful");
+    console.log("✅ Approval successful!");
 
     // Calculate expected output
     const path = [config.tokenA, config.tokenB];

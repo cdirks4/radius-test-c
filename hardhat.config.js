@@ -23,6 +23,15 @@ const config = {
           },
         },
       },
+      {
+        version: "0.8.20", // Added new compiler version for OpenZeppelin contracts
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
+      },
     ],
   },
   networks: {
